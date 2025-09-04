@@ -9,6 +9,16 @@ body{
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    background-color: #2c2c2c;
+}
+h1{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: black;
+    background-color: rgba(255, 255, 255, 0.457);
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .container{
     height: 500px;
@@ -17,7 +27,7 @@ body{
     justify-content: center;
     padding: 40px;
     border: 1px solid gray;
-    background-color: rgba(92, 83, 112, 0.484);
+    background-color: rgba(92, 83, 112, 0.616);
     border-radius: 5px;
 }
 .display{

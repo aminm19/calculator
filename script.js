@@ -20,6 +20,7 @@ const allClearBtn = document.getElementById('allClear');
 const display = document.getElementById('display');
 const currDisplay = document.getElementById('result');
 const history = document.getElementById('history');
+const negativeBtn = document.getElementById('negative');
 
 let clearOnNext = false;
 const operators = ['+', '-', '*', '/'];
@@ -41,6 +42,7 @@ multiplyBtn.addEventListener('click', multiply);
 divideBtn.addEventListener('click', divide);
 addBtn.addEventListener('click', add);
 equalsBtn.addEventListener('click', () => calculate());
+negativeBtn.addEventListener('click', () => makeNegative());
 allClearBtn.addEventListener('click', () => {
     currDisplay.textContent = '0';
     history.textContent = '';
@@ -133,8 +135,19 @@ function calculate() {
             return;
     }
     let expression = history.textContent + currDisplay.textContent;
-    // if(expression.length >)
+    if(expression.length > 14){
+        result = result.toExponential(5);
+    }
     currDisplay.textContent = result;
     clearOnNext = true;
     history.textContent = expression + ' = ' + result;
+}
+
+function makeNegative() {
+    if(currDisplay.textContent === '0') return;
+    if(currDisplay.textContent.startsWith('-')) {
+        currDisplay.textContent = currDisplay.textContent.slice(1);
+    } else {
+        currDisplay.textContent = '-' + currDisplay.textContent;
+    }
 }
