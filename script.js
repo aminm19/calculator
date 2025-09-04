@@ -16,9 +16,13 @@ const multiplyBtn = document.getElementById('multiply');
 const divideBtn = document.getElementById('divide');
 const equalsBtn = document.getElementById('equals');
 const clearBtn = document.getElementById('clear');
+const allClearBtn = document.getElementById('allClear');
 const display = document.getElementById('display');
 const currDisplay = document.getElementById('result');
 const history = document.getElementById('history');
+
+let clearOnNext = false;
+const operators = ['+', '-', '*', '/'];
 
 oneBtn.addEventListener('click', () => pressNumber("1"));
 twoBtn.addEventListener('click', () => pressNumber("2"));
@@ -37,12 +41,19 @@ multiplyBtn.addEventListener('click', multiply);
 divideBtn.addEventListener('click', divide);
 addBtn.addEventListener('click', add);
 equalsBtn.addEventListener('click', () => calculate());
+allClearBtn.addEventListener('click', () => {
+    currDisplay.textContent = '0';
+    history.textContent = '';
+});
 
-storedNum = 0;
 currDisplay.textContent = '0';
 
 // Loop through each button and add a click event listener
 function pressNumber(n) {
+    if(clearOnNext) {
+        currDisplay.textContent = '0';
+        clearOnNext = false;
+    }
     if(currDisplay.textContent === '0') {
         currDisplay.textContent = '';
     }
@@ -59,28 +70,36 @@ function pressDecimal() {
 }
 
 function subtract(){
-    if(history.textContent && history.textContent.slice(-2, -1).trim() !== '') {
+    if(currDisplay.textContent.slice(0, 1) === '-') {
+    }
+    else if(history.textContent && operators.includes(history.textContent.slice(-2, -1))) {
         calculate();
     }
     history.textContent = currDisplay.textContent + ' - '
     currDisplay.textContent = '0';
 }
 function add(){
-    if(history.textContent && history.textContent.slice(-2, -1).trim() !== '') {
+    if(currDisplay.textContent.slice(0, 1) === '-') {
+    }
+    else if(history.textContent && operators.includes(history.textContent.slice(-2, -1))) {
         calculate();
     }
     history.textContent = currDisplay.textContent + ' + '
     currDisplay.textContent = '0';
 }
 function multiply(){
-    if(history.textContent && history.textContent.slice(-2, -1).trim() !== '') {
+    if(currDisplay.textContent.slice(0, 1) === '-') {
+    }
+    else if(history.textContent && operators.includes(history.textContent.slice(-2, -1))) {
         calculate();
     }
     history.textContent = currDisplay.textContent + ' * '
     currDisplay.textContent = '0';
 }
 function divide(){
-    if(history.textContent && history.textContent.slice(-2, -1).trim() !== '') {
+    if(currDisplay.textContent.slice(0, 1) === '-') {
+    }
+    else if(history.textContent && operators.includes(history.textContent.slice(-2, -1))) {
         calculate();
     }
     history.textContent = currDisplay.textContent + ' / '
@@ -116,5 +135,6 @@ function calculate() {
     let expression = history.textContent + currDisplay.textContent;
     // if(expression.length >)
     currDisplay.textContent = result;
+    clearOnNext = true;
     history.textContent = expression + ' = ' + result;
 }
