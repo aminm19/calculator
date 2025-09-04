@@ -22,9 +22,20 @@ const currDisplay = document.getElementById('result');
 const history = document.getElementById('history');
 const negativeBtn = document.getElementById('negative');
 
-let clearOnNext = false;
-const operators = ['+', '-', '*', '/'];
+// Initialize state variables
 
+// used to determine if the display should be cleared on the next number press, happens after an operation
+let clearOnNext = false;
+// operators array for easy checking
+const operators = ['+', '-', '*', '/'];
+// make resultr state variable to track if we just calculated a result
+// this allows us to ignore negative sign issues in the history that may be confused for an operation
+let resultState = false;
+// make operation state variable to track if an operation button was pressed
+//this allows us to handle consecutive operations clicks correctly
+let operationState = false;
+
+// Add event listeners to each button
 oneBtn.addEventListener('click', () => pressNumber("1"));
 twoBtn.addEventListener('click', () => pressNumber("2"));
 threeBtn.addEventListener('click', () => pressNumber("3"));
@@ -50,7 +61,7 @@ allClearBtn.addEventListener('click', () => {
 
 currDisplay.textContent = '0';
 
-// Loop through each button and add a click event listener
+// Update display when number buttons are pressed
 function pressNumber(n) {
     if(clearOnNext) {
         currDisplay.textContent = '0';
@@ -59,50 +70,78 @@ function pressNumber(n) {
     if(currDisplay.textContent === '0') {
         currDisplay.textContent = '';
     }
-    console.log('Button clicked:', n);
+    operationState = false;
+    resultState = false;
     currDisplay.textContent += n;
 }
 
+// Handle decimal point input
 function pressDecimal() {
+    // check if there's already a decimal point, if so, ignore
     if (currDisplay.textContent.includes('.')) {
         return;
     }
-  console.log('Button clicked: .');
-  currDisplay.textContent += '.';
+    operationState = false;
+    resultState = false;
+    currDisplay.textContent += '.';
 }
 
 function subtract(){
-    if(currDisplay.textContent.slice(0, 1) === '-') {
+    if(operationState){
+        history.textContent = history.textContent.slice(0, -2) + ' - ';
+        return;
+    }
+    operationState = true;
+    if(resultState){
     }
     else if(history.textContent && operators.includes(history.textContent.slice(-2, -1))) {
         calculate();
+        operationState = true;
     }
     history.textContent = currDisplay.textContent + ' - '
     currDisplay.textContent = '0';
 }
 function add(){
-    if(currDisplay.textContent.slice(0, 1) === '-') {
+    if(operationState){
+        history.textContent = history.textContent.slice(0, -2) + ' + ';
+        return;
+    }
+    operationState = true;
+    if(resultState){
     }
     else if(history.textContent && operators.includes(history.textContent.slice(-2, -1))) {
         calculate();
+        operationState = true;
     }
     history.textContent = currDisplay.textContent + ' + '
     currDisplay.textContent = '0';
 }
 function multiply(){
-    if(currDisplay.textContent.slice(0, 1) === '-') {
+    if(operationState){
+        history.textContent = history.textContent.slice(0, -2) + ' * ';
+        return;
+    }
+    operationState = true;
+    if(resultState){
     }
     else if(history.textContent && operators.includes(history.textContent.slice(-2, -1))) {
         calculate();
+        operationState = true;
     }
     history.textContent = currDisplay.textContent + ' * '
     currDisplay.textContent = '0';
 }
 function divide(){
-    if(currDisplay.textContent.slice(0, 1) === '-') {
+    if(operationState){
+        history.textContent = history.textContent.slice(0, -2) + ' / ';
+        return;
+    }
+    operationState = true;
+    if(resultState){
     }
     else if(history.textContent && operators.includes(history.textContent.slice(-2, -1))) {
         calculate();
+        operationState = true;
     }
     history.textContent = currDisplay.textContent + ' / '
     currDisplay.textContent = '0';
@@ -138,6 +177,8 @@ function calculate() {
     if(expression.length > 14){
         result = result.toExponential(5);
     }
+    resultState = true;
+    operationState = false;
     currDisplay.textContent = result;
     clearOnNext = true;
     history.textContent = expression + ' = ' + result;
