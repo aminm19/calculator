@@ -17,7 +17,7 @@ body{
     justify-content: center;
     padding: 40px;
     border: 1px solid gray;
-    background-color: rgb(185, 185, 162);
+    background-color: rgba(92, 83, 112, 0.484);
     border-radius: 5px;
 }
 .display{
@@ -47,17 +47,28 @@ body{
     cursor: pointer;
     padding: 0;
     margin: 1px;
-    transition: filter 0.2s ease;
+    transition: filter 0.2s ease, transform 0.3s ease;
+
 }
 .btn:hover{
     filter: brightness(0.8);
+}
+.btn:active{
+    filter: brightness(0.6);
+    transform: scale(0.95);
 }
 #zero{
     width: 48%;
 }
 #equals{
-    margin-left: auto;
-    margin-right: 4px;
+    background-color: rgb(255, 196, 85);
+}
+.operator{
+    background-color: lightgray;
+}
+.clear, .allClear, .negative{
+    background-color: rgb(222, 101, 101);
+    color: white;
 }
 #result{
     position: absolute;
