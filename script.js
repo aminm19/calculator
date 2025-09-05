@@ -149,7 +149,7 @@ function divide(){
 function calculate() {
     let firstNum = parseFloat(history.textContent);
     let secondNum = parseFloat(currDisplay.textContent);
-    let operator = history.textContent.slice(-2, -1).trim();
+    let operator = history.textContent.slice(-2, -1);
     let result;
 
     switch (operator) {
