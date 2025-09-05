@@ -147,6 +147,7 @@ function divide(){
     currDisplay.textContent = '0';
 }
 function calculate() {
+    if(resultState) return;
     let firstNum = parseFloat(history.textContent);
     let secondNum = parseFloat(currDisplay.textContent);
     let operator = history.textContent.slice(-2, -1);
